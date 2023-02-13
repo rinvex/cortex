@@ -81,6 +81,30 @@
         }
     };
 
+    let customBulkAction = function (e, dt, button, config, options) {
+        console.log(options);
+        if (confirm('Are you sure you want to ' + options.title + ' all selected records?')) {
+            let selectedIds = $('.dataTableBuilder').DataTable().column(0).checkboxes.selected();
+            if (selectedIds.length > 0) {
+                let url = window.location.href;
+                if (options.url !== undefined) {
+                    url = options.url;
+                }
+                axios.post(url, {
+                    selected_ids: selectedIds.join(',').split(','),
+                    action: options.name
+                })
+                     .then(function (response) {
+                         let notification = function () {$.notify({message: response.data}, {type: 'success', mouse_over: 'pause', z_index: 9999, animate: {enter: 'animated fadeIn', exit: 'animated fadeOut'}});}; if (typeof notification === 'function') {notification(); notification = null;}
+                         dt.search('').draw();
+                         dt.column(0).checkboxes.deselectAll();
+                     });
+            } else {
+                alert('No Selected Records!');
+            }
+        }
+    };
+
     DataTable.ext.buttons.export = {
         extend: 'collection',
         className: 'buttons-export',
@@ -184,5 +208,22 @@
         className: 'buttons-create-popup',
         text: (dt) => '<i class="fa fa-plus"></i> ' + dt.i18n('buttons.create', 'Create'),
     };
+
+    if (window.Cortex.customBulkActions !== undefined) {
+        for (var i = 0; i < window.Cortex.customBulkActions.length ; i++) {
+            const options = window.Cortex.customBulkActions[i];
+            const name = options.name;
+            let title = options.title;
+            if (options.icon !== undefined) {
+                title = `<i class="${options.icon}"></i> ${title}`;
+            }
+
+            DataTable.ext.buttons[name] = {
+                className: 'buttons-bulk-'+name,
+                action: (e, dt, button, config) => customBulkAction(e, dt, button, config, options),
+                text: (dt) => title,
+            };
+        }
+    }
 
 }));

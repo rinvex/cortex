@@ -2,6 +2,7 @@
 // We need a way to delay this code execution until turbolinks
 // merge head scripts (datatables.js), load and executes it first, can we?!
 // By default 'turbolinks:load' here is loaded before it's deferred dependencies being loaded!
+@if (!empty($customBulkActions))window.Cortex.customBulkActions = @json($customBulkActions);@endif
 window.addEventListener('turbolinks:load', function() {
     @if ($routePrefix)window.Cortex.routePrefix = "{{ $routePrefix }}";@endif
     let LaravelDataTablesScripts = function(window,$) {window.LaravelDataTables = window.LaravelDataTables||{};window.LaravelDataTables["{{ $id }}"] = $("#{{ str_replace('.', '\\\.', $id) }}").DataTable({!! $options !!});}
