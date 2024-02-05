@@ -257,6 +257,6 @@ return [
     |
     */
 
-    'domains' => array_reduce(explode(',', env('APP_DOMAINS')), fn($carry, $item) => $carry + [($temp = explode(';', $item))[0] => explode('|', $temp[1])], []),
+    'domains' => array_reduce(explode(',', env('APP_DOMAINS')), fn ($carry, $item) => $carry + [($temp = explode(';', $item))[0] => explode('|', $temp[1])], []),
 
 ];
