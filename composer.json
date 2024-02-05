@@ -69,7 +69,7 @@
         "cortex/settings-tenantable": "^1.0.0",
         "cortex/tags": "^7.0.0",
         "cortex/tenants": "^8.0.0",
-        "doctrine/dbal": "^3.3.0",
+        "doctrine/dbal": "^4.0.0",
         "guzzlehttp/guzzle": "^7.4.0",
         "laravel/envoy": "^2.8.0",
         "laravel/framework": "^10.0.0 || ^11.0.0",
